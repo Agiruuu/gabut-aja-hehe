@@ -1,63 +1,83 @@
 const enterButton = document.getElementById("enterButton");
 const nameInput = document.getElementById("nameInput");
-const messageDiv = document.getElementById("message");
+const questionContainer = document.getElementById("questionContainer");
+const questionText = document.getElementById("questionText");
+const answerInput = document.getElementById("answerInput");
+const answerButton = document.getElementById("answerButton");
+const messageContainer = document.getElementById("messageContainer");
+const messageText = document.getElementById("messageText");
+const backButton = document.getElementById("backButton");
 
 const messages = {
-    Dita: async () => {
-        const firstAnswer = await askQuestion("Apa nama hotspot Dita?", ["teyo", "Teyo"]);
-        if (!firstAnswer) return;
-
-        const secondAnswer = await askQuestion("Apa nama hotspot ku?", ["nako", "Nako"]);
-        if (!secondAnswer) return;
-
-        showMessage(
-            "Wahh kalo tentang Dita sih aku gak bisa jelasin banyak.. intinya dia tuh orang yang paling ku sayang setelah ibuk :)"
-        );
-    },
-    Riesna: "Riesnaaa, aku selalu ngakak kalo ketemu sama dia, soalnya dia tuh kocakk, sering bahas banyak hal random yang kocak2 intinya deh.. dan sering dengerin curhatan ku juga.. udah ku anggep kayak Kakak sendiri, walaupun dia lebih muda sih ehehe",
-    Uaish: "Orangnya terlihat sangar, tapi hatinya hello kitty banget njir.. apalagi kalo udah bahas tentang keluarga, dah 100% bakal mewek tu orang awkakkwakwa.. dan dia orangnya baik, bertanggung jawab, cuman kalo ngomong suka muter2 aja.. kurang bisa to the point",
-    Rifa: "adek sepupu paling kendell, apa apa berani, pekerja keras banget.. agak galak juga, terus yang pasti baik ehehe",
-    Yana: "Adek sepupu paling cerewettt, aku ngeliat dia kek ngambekan sih orangnya, disenggol dikit misuh-misuh cerewetnya keluarrr.. tapi dia cantik gemoy, walopun akhir-akhir ini keknya makin bulet awkakawka",
-    Ilham: "Aku nganggep dia sebagai kawan kuliah paling akrab, bodoamat dia nganggep begitu juga atau ngga, yang jelas kehidupan kuliahku jadi lebih mudah semua berkat bantuan dia.. bener-bener orang yang menemani masa-masa kuliahku"
+    dita: [
+        { question: "Apa nama hotspot Dita?", answer: ["teyo", "Teyo"] },
+        { question: "Apa nama hotspot ku?", answer: ["nako", "Nako"] },
+        finalMessage: "Wahh kalo tentang Dita sih aku gak bisa jelasin banyak.. intinya dia tuh orang yang paling ku sayang setelah ibuk :)"
+    ],
+    riesna: "Riesnaaa, aku selalu ngakak kalo ketemu sama dia...",
+    uaish: "Orangnya terlihat sangar, tapi hatinya hello kitty banget njir...",
+    rifa: "adek sepupu paling kendell, apa apa berani...",
+    yana: "Adek sepupu paling cerewettt...",
+    ilham: "Aku nganggep dia sebagai kawan kuliah paling akrab...",
+    kevin: "temen kampus yang bisa dibilang sangat dekat...",
+    langgeng: "temen KKN, orangnya jujur dan ceplas ceplos...",
+    arkhan: "temen KKN, bisa dibilang orang paling taat...",
+    elsa: "temen KKN, awalnya kukira dia orangnya pendiem...",
+    desi: "temen KKN, jujur awalnya aku takut sama dia...",
+    belva: "temen KKN, cantik dan tinggi...",
+    mutia: "temen KKN, orangnya sangat slayyyyy..."
 };
 
+let currentQuestions = [];
+let currentStep = 0;
+
 enterButton.addEventListener("click", () => {
-    const name = nameInput.value.trim();
-    if (!name) return alert("Nama tidak boleh kosong!");
-
-    const lowerName = name.toLowerCase();
-    const keys = Object.keys(messages);
-    const matchedKey = keys.find((key) => key.toLowerCase() === lowerName);
-
-    if (matchedKey) {
-        const action = messages[matchedKey];
-        if (typeof action === "string") {
-            showMessage(action);
-        } else if (typeof action === "function") {
-            action();
+    const name = nameInput.value.toLowerCase();
+    if (messages[name]) {
+        if (name === "dita") {
+            currentQuestions = messages.dita;
+            currentStep = 0;
+            showQuestion();
+        } else {
+            showMessage(messages[name]);
         }
     } else {
-        alert("Nama tidak ditemukan!");
+        alert("Nama tidak ditemukan.");
     }
 });
 
-function showMessage(message) {
-    messageDiv.innerHTML = `
-        <p>${message}</p>
-        <button onclick="reset()">Kembali</button>
-    `;
-}
-
-function reset() {
-    messageDiv.innerHTML = "";
-    nameInput.value = "";
-}
-
-async function askQuestion(question, validAnswers) {
-    let answer = prompt(question);
-    if (!answer || !validAnswers.includes(answer)) {
-        alert("Jawaban salah, coba lagi.");
-        return false;
+answerButton.addEventListener("click", () => {
+    const answer = answerInput.value;
+    const validAnswers = currentQuestions[currentStep]?.answer || [];
+    if (validAnswers.includes(answer)) {
+        currentStep++;
+        if (currentStep < currentQuestions.length - 1) {
+            showQuestion();
+        } else {
+            showMessage(currentQuestions.finalMessage);
+        }
+    } else {
+        alert("Jawaban salah!");
     }
-    return true;
+});
+
+backButton.addEventListener("click", () => {
+    nameInput.value = "";
+    answerInput.value = "";
+    currentQuestions = [];
+    currentStep = 0;
+    questionContainer.classList.add("hidden");
+    messageContainer.classList.add("hidden");
+});
+
+function showQuestion() {
+    questionText.textContent = currentQuestions[currentStep].question;
+    questionContainer.classList.remove("hidden");
+    messageContainer.classList.add("hidden");
+}
+
+function showMessage(message) {
+    messageText.textContent = message;
+    messageContainer.classList.remove("hidden");
+    questionContainer.classList.add("hidden");
 }
