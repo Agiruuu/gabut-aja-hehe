@@ -1,39 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rahasia</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Kesan untuk Kalian</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container" id="login-container">
-        <h1>Pesan Untuk Seseorang</h1>
-        <p>Tolong tuliskan nama panggilanmu di kolom berikut sebagai password, soalnya pesan ini khusus buat seseorang aja :)</p>
-        <input type="text" id="name-input" placeholder="Masukkan nama panggilan">
-        <button id="enter-button">Enter</button>
-        <p id="error-message"></p>
+    <div class="container">
+        <h1>Tulis nama kalian untuk membaca kesan/pendapatku tentang diri kalian</h1>
+        <input type="text" id="nameInput" placeholder="Masukkan nama...">
+        <button id="enterButton">Enter</button>
+        <div id="message"></div>
     </div>
-
-    <div class="container" id="message-container" style="display: none;">
-        <h1>Yey, password-nya benar, berarti kamu orang yang boleh membaca tulisan di web ini ^_^</h1>
-        <p>Jawab pertanyaan berikut untuk memastikan kamu kenal dengan pemilik web ini, apa nama hotspot dari pemilik web ini?</p>
-        <input type="text" id="hotspot-input" placeholder="Masukkan jawaban">
-        <button id="submit-hotspot">Submit</button>
-        <p id="hotspot-error-message"></p>
-        <button id="view-message" style="display: none;">Lihat Pesan</button>
-    </div>
-
-    <div class="container" id="final-message" style="display: none;">
-        <h1>Eh anuu, jadi begini...</h1>
-        <p>
-            Sebenarnya, orang yang selama ini aku suka, dan sering aku curhatin ke kamu, orang tersebut ya dirimu sendiri, Dita. ^_^ <br><br>
-            Jangan canggung ya, aku suka sama kamu dalam batas wajar kok, lagian aku sadar diri juga ehehe. <br><br>
-            Dita bebas cerita tentang hal ini ke siapapun~ dan jangan merasa pusing atau terbebani ya! <br><br>
-            Lakukan apa yang ingin Dita lakukan, cobalah lebih peka, dimulai dari peka sama keinginan diri sendiri dulu ^_^
-        </p>
-    </div>
-
     <script src="script.js"></script>
 </body>
 </html>
